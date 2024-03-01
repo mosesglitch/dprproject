@@ -32,6 +32,7 @@ function App() {
   />
 </ShellBar>
      <ProjectList/>
+     
     </div>
   );
 }
