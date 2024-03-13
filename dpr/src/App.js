@@ -1,10 +1,17 @@
 import logo from './logo.svg';
+import react,{useState} from 'react'
 import './App.css';
 import CreateDpr from './components/CreateDpr';
 import ProjectList from './components/ProjectList';
-import {ShellBar,StandardListItem,Avatar,Input,ShellBarItem,Icon } from '@ui5/webcomponents-react';
+import {ShellBar,StandardListItem,Table,TableRow,TableCell,TableColumn,Label,Avatar,Input,ShellBarItem,Icon } from '@ui5/webcomponents-react';
+import jsonData from './components/data.json';
 
 function App() {
+  const [selectedDpr,setSelectedDpr]=useState(false)
+
+  const handleDprSelect=(dprInfo)=>{
+    setSelectedDpr(dprInfo)
+  }
   return (
     <div className="App">
       <ShellBar
@@ -32,8 +39,49 @@ function App() {
     text="ShellBarItem"
   />
 </ShellBar>
+
      <CreateDpr/>
+   
+     <Table
+  accessibleName=""
+  accessibleNameRef=""
+  // busy
+  busyDelay={0}
+  columns={<><TableColumn style={{width: '12rem'}}><Label>Date</Label></TableColumn><TableColumn minWidth={800} popinText="Project ID"><Label>Project ID</Label></TableColumn><TableColumn demandPopin minWidth={600} popinText="Project Name"><Label>Project Name</Label></TableColumn></>}
+  mode="SingleSelect"
+  onLoadMore={function _a(){}}
+  onPopinChange={function _a(){}}
+  onRowClick={function _a(){}}
+  onSelectionChange={function _a(){}}
+>
+{
+      jsonData.project_data.map((dpr)=>(
+        <TableRow onClick={()=>handleDprSelect(dpr)}>
+           <TableCell>
+          <Label>
+            {dpr.date}
+          </Label>
+        </TableCell>
+        <TableCell>
+
+          <Label>
+            {dpr.project_id}
+          </Label>
+        </TableCell>
+        <TableCell>
+          <Label>
+            {dpr.project_name}
+          </Label>
+        </TableCell>
      
+      
+      </TableRow>
+      ))
+
+     }
+ 
+
+</Table>
     </div>
   );
 }

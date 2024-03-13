@@ -10,11 +10,12 @@ with app.app_context():
 
 @app.route("/details",methods=["POST"])
 def get_dpr():
-  project_id = request.args.get('project_id')
-  dpr_date = request.args.get('dpr_date')
-  dprs = DPR.query.filter_by(project_id=project_id, date=dpr_date).all()
 
-  dpr_data = []
+    project_id = request.args.get('project_id')
+    dpr_date = request.args.get('dpr_date')
+    dprs = DPR.query.filter_by(project_id=project_id, date=dpr_date).all()
+
+    dpr_data = []
     for dpr in dprs:
         dpr_info = {
             'id': dpr.id,
@@ -26,6 +27,7 @@ def get_dpr():
 
         # Retrieve works information for the current DPR
         works = Works.query.filter_by(dpr_id=dpr.id).all()
+
         for work in works:
             work_info = {
                 'activity': work.activity,
@@ -86,5 +88,7 @@ def create_dpr():
 
     # Return a success message
     return jsonify({'message': 'DPR record created successfully'}), 201
+
+# create_dpr()
 if __name__=="__main__":
     app.run(port=2500)

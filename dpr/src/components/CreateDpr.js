@@ -1,37 +1,71 @@
 import react, { useState } from 'react';
-import { Button, ObjectPage, DynamicPageHeader, List,Input,ComboBox,ComboBoxItem, Icon,ProgressIndicator, StandardListItem, Table, TableColumn, TableRow, TableCell, Bar, MediaGallery, MediaGalleryItem, FlexBox, ObjectPageSection, Form, MessageStrip, ObjectStatus, BreadcrumbsItem, ObjectPageSubSection, Link, Label, Breadcrumbs, FormGroup, FormItem, Text, DynamicPageTitle } from '@ui5/webcomponents-react';
+import { Button, ObjectPage, DynamicPageHeader, List, Input, ComboBox, ComboBoxItem, Icon, ProgressIndicator, StandardListItem, Table, TableColumn, TableRow, TableCell, Bar, MediaGallery, MediaGalleryItem, FlexBox, ObjectPageSection, Form, MessageStrip, ObjectStatus, BreadcrumbsItem, ObjectPageSubSection, Link, Label, Breadcrumbs, FormGroup, FormItem, Text, DynamicPageTitle } from '@ui5/webcomponents-react';
 import Title from '@ui5/webcomponents/dist/Title';
 import axios from 'axios'
+import jsonTasks from './gant.json';
+import "@ui5/webcomponents/dist/features/InputElementsFormSupport.js"
+
 export default function CreateDpr() {
-    const [formData, setFormData] = useState({
-        project_id: '',
-        date: '',
-        weather: '',
-        images: [],
-        works: '',
-        lost_days: [],
-        issues: [],
-      })
+  const [formData, setFormData] = useState({
+    project_id: '',
+    date: '',
+    weather: '',
+    images: [],
+    works: [],
+    lost_days: [],
+    issues: [],
+  })
+  const [isEdit, setIsEdit] = useState(false)
+  const [tasks, setTasks] = useState([])
 
+  const [works, setWorks] = useState([]); // State list to store selected tasks
+  const [taskItems, setTaskItems] = useState([]); // Dictionary to store ComboBox items
+  const handleInput = (event) => {
+    const { value } = event.target;
+    // Assuming jsonTasks is your JSON data containing program_tasks array
+    const filteredTasks = jsonTasks.program_tasks.filter((task) =>
+      task.task.toLowerCase().includes(value.toLowerCase())
+    );
+    setTaskItems(filteredTasks.reduce((acc, task) => {
+      acc[task.task] = task;
+      return acc;
+    }, {}));
+  };
 
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-          ...formData,
-          [name]: value,
-        });
-      };
-
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-          // Send POST request to the server
-          const response = await axios.post('http://127.0.0.1:2500/dpr', formData);
-          console.log('DPR created:', response.data);
-        } catch (error) {
-          console.error('Error creating DPR:', error);
-        }
-      };
+  // Function to handle selection change in ComboBox
+  const handleSelectionChange = (event) => {
+    const { selectedItem } = event.detail;
+    setTasks([...tasks, selectedItem]);
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const handleWorksChange = (name,value) => {
+    console.log(name,value)
+    setWorks({
+      ...works,
+      [name]: value,
+    });
+    console.log(works,"wakawakaaa")
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Send POST request to the server
+      const response = await axios.post('http://127.0.0.1:2500/dpr', formData);
+      console.log('DPR created:', response.data);
+    } catch (error) {
+      console.error('Error creating DPR:', error);
+    }
+  };
+  const handleAddWorks=()=>{
+    setTaskItems((prevTasks)=>[...prevTasks,works])
+  }
+  console.log(taskItems,"mAMA")
   return <ObjectPage
     footer={<Bar design="FloatingFooter" endContent={<><Button design="Negative">Discard</Button><Button design="Positive" onClick={handleSubmit}>Save</Button></>} />}
     headerTitle={<DynamicPageTitle header="PROPOSED SUPPLY INSTALLATION  AND COMMISSIONING OF POWER LINE AND METERING SUBSTATION FOR LAMU PORT" showSubHeaderRight subHeader="51166"><ObjectStatus state="Success">KPA</ObjectStatus></DynamicPageTitle>}
@@ -107,8 +141,8 @@ export default function CreateDpr() {
     expandedContent={<ProgressIndicator
       value={50}
       valueState="None"
-    />} 
-    header="Denise Smith" showSubHeaderRight 
+    />}
+    header="Denise Smith" showSubHeaderRight
     // snappedContent={<MessageStrip>Information (only visible if header content is collapsed/snapped)</MessageStrip>} subHeader="Senior UI Developer">
     //   <ObjectStatus state="Success">employed</ObjectStatus></DynamicPageTitle>}
     image="https://www.kpa.co.ke/Style%20Library/images/logo_dark.jpg"
@@ -132,26 +166,33 @@ export default function CreateDpr() {
       titleText="Executed works, Observations and remarks"
     >
       <ObjectPageSubSection
-        actions={<><Button design="Emphasized" style={{ minWidth: '30px' }}><Icon name="edit" style={{ color: "white" }} /></Button><Button design="Transparent" icon="action-settings" tooltip="settings" /><Button design="Transparent" icon="download" tooltip="download" /></>}
+        actions={isEdit ?
+          <><Button design="Emphasized" onClick={() => setIsEdit(!isEdit)} style={{ minWidth: '30px' }}><Icon name="edit" style={{ color: "white" }} /></Button></>
+          :
+          <><Button design="Positive" onClick={() => {setIsEdit(!isEdit); handleAddWorks()}} style={{ minWidth: '30px' }}><Icon name="accept" style={{ color: "black" }} /></Button></>}
 
         aria-label="Construction Activities"
         id="personal-payment-information"
         titleText="Construction Activities"
       >
         <Table
-          columns={<><TableColumn style={{ width: '200px' }}><Label>TODAY ACTIVITIES
+          // style={{ width: "50%" }}
+          columns={<><TableColumn demandPopin minWidth={600} popinText="Today Activities" style={{ width: '200px' }}><Label>TODAY ACTIVITIES
           </Label></TableColumn>
-            <TableColumn minWidth={400} popinText="Supplier">
+            <TableColumn minWidth={400} popinText="Planned" demandPopin>
               <Label>Planned
               </Label></TableColumn>
-            <TableColumn demandPopin minWidth={600} popinText="Dimensions">
+            <TableColumn demandPopin minWidth={600} popinText="Achieved">
               <Label>Achieved
                 Today</Label>
             </TableColumn>
-            <TableColumn demandPopin minWidth={600} popinText="Weight">
+            <TableColumn demandPopin minWidth={600} popinText="Cumulative">
               <Label>Cumulative</Label>
             </TableColumn>
-            <TableColumn>
+            <TableColumn demandPopin minWidth={600} popinText="Total Scope">
+              <Label>Total Scope</Label>
+            </TableColumn>
+            <TableColumn demandPopin minWidth={600} popinText="%Complete">
               <Label>% Complete</Label>
             </TableColumn></>}
           onLoadMore={function _a() { }}
@@ -161,69 +202,74 @@ export default function CreateDpr() {
         >
           <TableRow>
             <TableCell>
-            <ComboBox
-                  icon={<Icon name="employee" />}
-                  onChange={function _a(){}}
-                  onInput={function _a(){}}
-                  onSelectionChange={function _a(){}}
-                  valueState="None"
-                  style={{width:"100%"}}
-                >
-                  <ComboBoxItem text="ComboBox Entry 1" />
-                  <ComboBoxItem text="ComboBox Entry 2" />
-                  <ComboBoxItem text="ComboBox Entry 3" />
-                  <ComboBoxItem text="ComboBox Entry 4" />
-                  <ComboBoxItem text="ComboBox Entry 5" />
-                </ComboBox>
+              <ComboBox
+                // icon={<Icon name="employee" />}
+                onChange={function _a() { }}
+                onInput={function _a() { }}
+                onSelectionChange={function _a(e) { handleWorksChange("task_name", e.target.value);console.log(e)}}
+                valueState="None"
+              // style={{width:"100%"}}
+              >
+                {
+                  jsonTasks.program_tasks.map((task)=> 
+                  <ComboBoxItem text={task.task} />
+                  
+                  )
+                }
+              </ComboBox>
             </TableCell>
             <TableCell>
-            <Input type="Text" />
+              <Input type="Text" name="planned" onInput={(e)=>handleWorksChange(e.target.name, e.target.value)}/>
 
             </TableCell>
             <TableCell>
-            <Input type="Text" />
+              <Input type="Text" name="achieved" onInput={(e)=>handleWorksChange(e.target.name, e.target.value)}/>
 
             </TableCell>
             <TableCell>
-            <Input type="Text" />
+              <Input type="Text" name="cumulative" onInput={(e)=>handleWorksChange(e.target.name, e.target.value)}/>
 
             </TableCell>
             <TableCell>
-            <Input type="Text" />
+              <Input type="Text" name="totalscope" onInput={(e)=>handleWorksChange(e.target.name, e.target.value)}/>
+
+            </TableCell>
+            <TableCell>
+              <Input type="Text" />
 
             </TableCell>
           </TableRow>
-          <TableRow>
+        {taskItems.map((task)=>
+        
+        <TableRow>
             <TableCell>
               <Label>
-                "Holes Digging Hoarding of dug holes to secure them for the long pause of work"
-
+               {task.task_name}
               </Label>
             </TableCell>
             <TableCell>
               <Label>
-                268
+               {task.planned}
               </Label>
             </TableCell>
             <TableCell>
               <Label>
-                532
+                {task.achieved}
               </Label>
             </TableCell>
             <TableCell>
               <Label>
-                67%
+                {task.plan}%
               </Label>
             </TableCell>
             <TableCell>
               <Label>
-                "2.4 Meters deep
-
-                Pegs 449, 450"
+               {task.cumulative}
 
               </Label>
             </TableCell>
           </TableRow>
+        )}
           <TableRow>
             <TableCell>
               <Label>
@@ -332,12 +378,7 @@ export default function CreateDpr() {
           <StandardListItem additionalText="3">
             October 24th 2023, Morning hours experienced heavy rains, so morning hours of the day lost (from 9:00 AM to 12 Noon)
           </StandardListItem>
-          <StandardListItem additionalText="2">
-            1st November 2023, Morning hours experienced heavy rains, so morning hours of the day lost (from 8:30 AM to 12 Noon)
-          </StandardListItem>
-          <StandardListItem additionalText="1">
-            2nd November 2023, Morning hours experienced heavy rains, so morning hours of the day lost (from 7:00 AM to 1PM)
-          </StandardListItem>
+
         </List>
       </ObjectPageSubSection>
       <ObjectPageSubSection

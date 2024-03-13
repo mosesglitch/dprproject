@@ -1,0 +1,80 @@
+{
+  "project_data": [
+    {
+      "project_id": "PRJ001",
+      "project_name": "KPA",
+
+      "date": "2024-03-13",
+      "weather": "Sunny",
+      "images": [
+        "image1.jpg",
+        "image2.jpg"
+      ],
+      "works": "Excavation",
+      "lost_days": [
+        "2024-03-10"
+      ],
+      "issues": [
+        {
+          "id": 1,
+          "description": "Delay due to equipment malfunction",
+          "resolved": false
+        }
+      ]
+    },
+    {
+      "project_id": "PRJ002",
+      "project_name": "Acciona",
+
+      "date": "2024-03-14",
+      "weather": "Cloudy",
+      "images": [
+        "image3.jpg",
+        "image4.jpg"
+      ],
+      "works": "Concrete pouring",
+      "lost_days": [],
+      "issues": []
+    },
+    {
+      "project_id": "PRJ003",
+      "project_name": "TG Kawa",
+
+      "date": "2024-03-15",
+      "weather": "Rainy",
+      "images": [
+        "image5.jpg"
+      ],
+      "works": "Framing",
+      "lost_days": [
+        "2024-03-11",
+        "2024-03-12"
+      ],
+      "issues": [
+        {
+          "id": 1,
+          "description": "Material delivery delayed",
+          "resolved": true
+        }
+      ]
+    },
+    {
+      "project_id": "PRJ004",
+      "project_name": "Ketraco",
+
+      "date": "2024-03-16",
+      "weather": "Sunny",
+      "images": [],
+      "works": "Roofing",
+      "lost_days": [],
+      "issues": [
+        {
+          "id": 1,
+          "description": "Labor shortage",
+          "resolved": false
+        }
+      ]
+    }
+
+  ]
+}

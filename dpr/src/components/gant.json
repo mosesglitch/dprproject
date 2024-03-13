@@ -1,0 +1,76 @@
+{
+    "program_tasks": [
+        {
+            "task": "Surveying and Soil Investigation",
+            "start_date": "March 18, 2022 10:00 AM",
+            "end_date": "June 1, 2023 11:00 AM",
+            "duration": "448 days",
+            "percentage_complete": 1,
+            "late": "No",
+            "lost_days": "0d"
+        },
+        {
+            "task": "Surveying",
+            "start_date": "March 18, 2022 10:00 AM",
+            "end_date": "November 30, 2022 2:00 PM",
+            "duration": "262 days",
+            "percentage_complete": 1,
+            "late": "No",
+            "lost_days": "0d"
+        },
+        {
+            "task": "Transmission Line Survey",
+            "start_date": "March 18, 2022 10:00 AM",
+            "end_date": "September 9, 2022 9:00 AM",
+            "duration": "178 days",
+            "percentage_complete": 1,
+            "late": "No",
+            "lost_days": "0d"
+        },
+        {
+            "task": "Preparation of Profile",
+            "start_date": "March 18, 2022 10:00 AM",
+            "end_date": "September 24, 2022 4:00 PM",
+            "duration": "194 days",
+            "percentage_complete": 1,
+            "late": "No",
+            "lost_days": "0d"
+        },
+        {
+            "task": "Profile Approval",
+            "start_date": "September 26, 2022 3:00 PM",
+            "end_date": "November 30, 2022 2:00 PM",
+            "duration": "66 days",
+            "percentage_complete": 1,
+            "late": "No",
+            "lost_days": "0d"
+        },
+        {
+            "task": "Check Survey",
+            "start_date": "September 26, 2022 3:00 PM",
+            "end_date": "November 7, 2022 5:00 PM",
+            "duration": "43 days",
+            "percentage_complete": 1,
+            "late": "No",
+            "lost_days": "0d"
+        },
+        {
+            "task": "Soil Investigation",
+            "start_date": "December 17, 2022 11:00 AM",
+            "end_date": "June 1, 2023 11:00 AM",
+            "duration": "169 days",
+            "percentage_complete": 1,
+            "late": "No",
+            "lost_days": "0d"
+        },
+        {
+            "task": "Machine Boring of Single bore hole",
+            "start_date": "December 17, 2022 11:00 AM",
+            "end_date": "March 21, 2023 2:00 PM",
+            "duration": "96 days",
+            "percentage_complete": 1,
+            "late": "No",
+            "lost_days": "0d"
+        }
+    ]
+}
