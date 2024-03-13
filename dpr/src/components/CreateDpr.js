@@ -1,10 +1,39 @@
 import react, { useState } from 'react';
 import { Button, ObjectPage, DynamicPageHeader, List,Input,ComboBox,ComboBoxItem, Icon,ProgressIndicator, StandardListItem, Table, TableColumn, TableRow, TableCell, Bar, MediaGallery, MediaGalleryItem, FlexBox, ObjectPageSection, Form, MessageStrip, ObjectStatus, BreadcrumbsItem, ObjectPageSubSection, Link, Label, Breadcrumbs, FormGroup, FormItem, Text, DynamicPageTitle } from '@ui5/webcomponents-react';
 import Title from '@ui5/webcomponents/dist/Title';
-export default function ProjectList() {
-  
+import axios from 'axios'
+export default function CreateDpr() {
+    const [formData, setFormData] = useState({
+        project_id: '',
+        date: '',
+        weather: '',
+        images: [],
+        works: '',
+        lost_days: [],
+        issues: [],
+      })
+
+
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+      };
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+          // Send POST request to the server
+          const response = await axios.post('http://127.0.0.1:2500/dpr', formData);
+          console.log('DPR created:', response.data);
+        } catch (error) {
+          console.error('Error creating DPR:', error);
+        }
+      };
   return <ObjectPage
-    // footer={<Bar design="FloatingFooter" endContent={<><Button design="Positive">Edit</Button><Button design="Negative">Save</Button></>} />}
+    footer={<Bar design="FloatingFooter" endContent={<><Button design="Negative">Discard</Button><Button design="Positive" onClick={handleSubmit}>Save</Button></>} />}
     headerTitle={<DynamicPageTitle header="PROPOSED SUPPLY INSTALLATION  AND COMMISSIONING OF POWER LINE AND METERING SUBSTATION FOR LAMU PORT" showSubHeaderRight subHeader="51166"><ObjectStatus state="Success">KPA</ObjectStatus></DynamicPageTitle>}
     headerContent={<DynamicPageHeader>
       {/* headerContent={<DynamicPageHeader><FlexBox alignItems="Center" wrap="Wrap"><FlexBox direction="Column"><Link>+33 6 4512 5158</Link><Link href="mailto:ui5-webcomponents-react@sap.com">DeniseSmith@sap.com</Link><Link href="https://github.com/SAP/ui5-webcomponents-react">https://github.com/SAP/ui5-webcomponents-react</Link></FlexBox><FlexBox direction="Column" style={{padding: '10px'}}><Label>San Jose</Label><Label>California, USA</Label></FlexBox></FlexBox></DynamicPageHeader>} */}
@@ -91,7 +120,7 @@ export default function ProjectList() {
     showHideHeaderButton
     style={{
       height: '700px',
-      height: "100vh",
+      height: "95vh",
       position: "absolute",
       top: "45px",
       bottom: "0px",

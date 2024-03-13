@@ -1,0 +1,7 @@
+/dpr/node_modules
+/dpr/.pnp
+/backend/__pycache__
+/backend/models/__pycache__
+/backend/myenv/
+
+

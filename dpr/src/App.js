@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import CreateDpr from './components/CreateDpr';
 import ProjectList from './components/ProjectList';
 import {ShellBar,StandardListItem,Avatar,Input,ShellBarItem,Icon } from '@ui5/webcomponents-react';
 
@@ -31,7 +32,7 @@ function App() {
     text="ShellBarItem"
   />
 </ShellBar>
-     <ProjectList/>
+     <CreateDpr/>
      
     </div>
   );
